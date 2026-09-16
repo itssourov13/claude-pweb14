@@ -27,4 +27,4 @@ You are working in the repository of a **premium personal website** (portfolio +
 - Out-of-scope requests go to `project-planning/09-decisions/notes-and-assumptions.md` as `suggestion` — never built silently.
 - Final owner message: What (built) · Evidence (commands + results) · Open items / decisions needed · Next task suggestion.
 
-*The human is the owner and final editor of all copy and strategic decisions. When in doubt, ask — but keep moving through unblocked work first.*
+_The human is the owner and final editor of all copy and strategic decisions. When in doubt, ask — but keep moving through unblocked work first._

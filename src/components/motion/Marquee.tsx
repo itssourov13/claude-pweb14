@@ -19,10 +19,7 @@ export default function Marquee({
   return (
     <div className={cn("overflow-hidden", className)}>
       <div
-        className={cn(
-          "flex w-max gap-12",
-          !reducedMotion && "animate-marquee",
-        )}
+        className={cn("flex w-max gap-12", !reducedMotion && "animate-marquee")}
       >
         <div className="flex shrink-0 gap-12">{children}</div>
         {!reducedMotion ? (

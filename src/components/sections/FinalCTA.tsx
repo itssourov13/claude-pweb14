@@ -9,12 +9,13 @@ export default function FinalCTA() {
       <h2 className="text-display-2 max-w-xl">
         Have a project in mind? Let&apos;s talk about it.
       </h2>
-      <p className="text-muted max-w-lg">{siteConfig.availability.label} —
-        usually a good time to start a conversation about scope and timeline.
+      <p className="text-muted max-w-lg">
+        {siteConfig.availability.label} — usually a good time to start a
+        conversation about scope and timeline.
       </p>
       <Link
         href="/contact"
-        className="min-h-11 rounded-full bg-accent px-6 py-3 font-medium text-white hover:bg-accent-strong"
+        className="bg-accent hover:bg-accent-strong min-h-11 rounded-full px-6 py-3 font-medium text-white"
       >
         Get in touch
       </Link>

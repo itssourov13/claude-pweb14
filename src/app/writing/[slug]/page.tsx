@@ -2,9 +2,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import Section from "@/components/ui/Section";
 import Prose from "@/components/ui/Prose";
-import { getAllNotes, getNoteBySlug, getRelatedNotes, renderMarkdown } from "@/lib/content";
+import Section from "@/components/ui/Section";
+import {
+  getAllNotes,
+  getNoteBySlug,
+  getRelatedNotes,
+  renderMarkdown,
+} from "@/lib/content";
 import { articleJsonLd, jsonLdScript } from "@/lib/seo";
 import { formatDate } from "@/lib/utils";
 
@@ -51,9 +56,7 @@ export default async function WritingArticlePage({
 
       {related.length > 0 ? (
         <Section className="border-border border-t">
-          <p className="text-overline text-accent-strong mb-4">
-            Related notes
-          </p>
+          <p className="text-overline text-accent-strong mb-4">Related notes</p>
           <ul className="flex flex-col gap-3">
             {related.map((item) => (
               <li key={item.slug}>

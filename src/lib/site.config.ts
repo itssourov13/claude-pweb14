@@ -25,6 +25,7 @@ export type Metric = {
 
 export type SiteConfig = {
   name: string;
+  shortName: string;
   domain: string;
   tagline: string;
   description: string;
@@ -36,16 +37,17 @@ export type SiteConfig = {
   excludes: string[];
 };
 
-// NOTE: name/domain/email below are placeholders (see decision log A-001 /
-// A-002). Replace with the owner's real facts before launch — every piece of
-// metadata, JSON-LD, the sitemap, RSS, and the footer derive from this file.
+// NOTE: domain/email below are placeholders until the live domain is set —
+// swap in the real values before launch; every piece of metadata, JSON-LD,
+// the sitemap, RSS, and the footer derive from this file.
 export const siteConfig = {
-  name: "Alex Morgan",
-  domain: "alexmorgan.studio",
+  name: "Sourov Mondol",
+  shortName: "Sourov",
+  domain: "sourovmondol.dev",
   tagline: "Independent product designer & engineer.",
   description:
-    "Alex Morgan is an independent product designer and engineer who helps founders and teams design, build, and ship premium digital products.",
-  email: "hello@alexmorgan.studio",
+    "Sourov Mondol is an independent product designer and engineer who helps founders and teams design, build, and ship premium digital products.",
+  email: "hello@sourovmondol.dev",
   availability: {
     status: "booking",
     label: "Booking Q4 2026",

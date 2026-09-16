@@ -11,7 +11,7 @@ const Textarea = forwardRef<
     ref={ref}
     rows={6}
     className={cn(
-      "border-border bg-surface rounded-sm border px-3.5 py-3 text-base outline-none focus-visible:border-accent",
+      "border-border bg-surface focus-visible:border-accent rounded-sm border px-3.5 py-3 text-base outline-none",
       className,
     )}
     {...props}

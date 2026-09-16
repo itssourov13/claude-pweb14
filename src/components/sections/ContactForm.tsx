@@ -43,7 +43,9 @@ export default function ContactForm() {
         const body = (await response.json().catch(() => null)) as {
           message?: string;
         } | null;
-        throw new Error(body?.message ?? "Something went wrong. Please try again.");
+        throw new Error(
+          body?.message ?? "Something went wrong. Please try again.",
+        );
       }
 
       setState("success");
@@ -59,19 +61,28 @@ export default function ContactForm() {
   if (state === "success") {
     return (
       <p role="status" className="text-success text-lg">
-        Thanks — that&apos;s sent. I&apos;ll get back to you within two
-        business days.
+        Thanks — that&apos;s sent. I&apos;ll get back to you within two business
+        days.
       </p>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} noValidate className="flex flex-col gap-5">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      noValidate
+      className="flex flex-col gap-5"
+    >
       {/* Honeypot — hidden from sighted/keyboard users, visible to bots that
           fill every field. Real users never see or touch this. */}
       <div className="absolute -left-[9999px]" aria-hidden="true">
         <label htmlFor="company">Company</label>
-        <input id="company" tabIndex={-1} autoComplete="off" {...register("company")} />
+        <input
+          id="company"
+          tabIndex={-1}
+          autoComplete="off"
+          {...register("company")}
+        />
       </div>
 
       <Field label="Name" htmlFor="name" error={errors.name?.message}>
@@ -79,14 +90,27 @@ export default function ContactForm() {
       </Field>
 
       <Field label="Email" htmlFor="email" error={errors.email?.message}>
-        <Input id="email" type="email" autoComplete="email" {...register("email")} />
+        <Input
+          id="email"
+          type="email"
+          autoComplete="email"
+          {...register("email")}
+        />
       </Field>
 
       <Field label="Budget (optional)" htmlFor="budget">
-        <Input id="budget" placeholder="e.g. $10k–20k" {...register("budget")} />
+        <Input
+          id="budget"
+          placeholder="e.g. $10k–20k"
+          {...register("budget")}
+        />
       </Field>
 
-      <Field label="Project details" htmlFor="message" error={errors.message?.message}>
+      <Field
+        label="Project details"
+        htmlFor="message"
+        error={errors.message?.message}
+      >
         <Textarea id="message" {...register("message")} />
       </Field>
 
@@ -99,7 +123,7 @@ export default function ContactForm() {
       <button
         type="submit"
         disabled={state === "submitting"}
-        className="min-h-11 flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3 font-medium text-white hover:bg-accent-strong disabled:opacity-60"
+        className="bg-accent hover:bg-accent-strong flex min-h-11 items-center justify-center gap-2 rounded-full px-6 py-3 font-medium text-white disabled:opacity-60"
       >
         {state === "submitting" ? <Spinner /> : null}
         {state === "submitting" ? "Sending…" : "Send message"}

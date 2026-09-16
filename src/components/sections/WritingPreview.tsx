@@ -23,7 +23,9 @@ export default function WritingPreview({ items }: { items: Note[] }) {
       </div>
 
       {items.length === 0 ? (
-        <p className="text-muted">Notes are coming soon — check back shortly.</p>
+        <p className="text-muted">
+          Notes are coming soon — check back shortly.
+        </p>
       ) : (
         <div className="divide-border divide-y">
           {items.map((note, index) => (

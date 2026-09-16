@@ -13,8 +13,7 @@ const base =
   "disabled:pointer-events-none disabled:opacity-50 min-h-11 px-5";
 
 const variants: Record<NonNullable<ButtonProps["variant"]>, string> = {
-  primary:
-    "rounded-full bg-accent text-white hover:bg-accent-strong shadow-sm",
+  primary: "rounded-full bg-accent text-white hover:bg-accent-strong shadow-sm",
   secondary:
     "rounded-full border border-border bg-surface text-fg hover:bg-surface-2",
   ghost: "rounded-full text-fg hover:bg-surface-2",

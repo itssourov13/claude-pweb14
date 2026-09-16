@@ -3,21 +3,20 @@ import path from "node:path";
 
 import matter from "gray-matter";
 import { marked } from "marked";
+import sanitizeHtml from "sanitize-html";
 
-import { readingTime } from "@/lib/utils";
 import {
   noteFrontmatterSchema,
   workFrontmatterSchema,
   type Note,
   type Work,
 } from "@/lib/schema";
+import { readingTime } from "@/lib/utils";
 
-// DEVIATION FROM tech-stack.md (D-005): the plan calls for Velite. Velite's
-// build-time codegen couldn't be installed/verified in the authoring
-// environment (no network access), so this is a small, dependency-light
-// hand-rolled loader (gray-matter + marked) with the same zod-validated
-// contract. Swapping back to Velite later is a drop-in change scoped to this
-// file — see project-planning/09-decisions/decision-log.md.
+// Content loader: a small, dependency-light hand-rolled loader
+// (gray-matter + marked) with a zod-validated contract. Kept intentionally
+// over heavier build-time codegen tooling (e.g. Velite) for simplicity;
+// swapping to Velite later is a drop-in change scoped to this file.
 
 const CONTENT_DIR = path.join(process.cwd(), "content");
 
@@ -47,7 +46,10 @@ export function getAllWork(): Work[] {
     .map(({ slug, data, content }) => {
       const parsed = workFrontmatterSchema.safeParse(data);
       if (!parsed.success) {
-        console.warn(`[content] skipping content/work/${slug}: invalid frontmatter`, parsed.error.flatten());
+        console.warn(
+          `[content] skipping content/work/${slug}: invalid frontmatter`,
+          parsed.error.flatten(),
+        );
         return null;
       }
       return { ...parsed.data, slug, body: content };
@@ -76,7 +78,10 @@ export function getAllNotes(): Note[] {
     .map(({ slug, data, content }) => {
       const parsed = noteFrontmatterSchema.safeParse(data);
       if (!parsed.success) {
-        console.warn(`[content] skipping content/writing/${slug}: invalid frontmatter`, parsed.error.flatten());
+        console.warn(
+          `[content] skipping content/writing/${slug}: invalid frontmatter`,
+          parsed.error.flatten(),
+        );
         return null;
       }
       return {
@@ -107,6 +112,34 @@ export function getRelatedNotes(slug: string, limit = 3): Note[] {
     .slice(0, limit);
 }
 
+// Extra tags/attributes beyond sanitize-html's safe defaults that markdown
+// authors may legitimately use. `javascript:` URLs, event handlers, and
+// <script>/<iframe> are stripped by the library's defaults.
+const SANITIZE_OPTIONS: sanitizeHtml.IOptions = {
+  allowedTags: [
+    ...sanitizeHtml.defaults.allowedTags,
+    "img",
+    "picture",
+    "source",
+    "figcaption",
+    "figure",
+    "video",
+    "audio",
+  ],
+  allowedAttributes: {
+    ...sanitizeHtml.defaults.allowedAttributes,
+    img: ["src", "alt", "width", "height", "loading", "srcset", "sizes"],
+    source: ["src", "srcset", "type", "media"],
+    video: ["src", "controls", "poster", "width", "height"],
+    audio: ["src", "controls"],
+    a: ["href", "name", "target", "rel"],
+  },
+};
+
 export async function renderMarkdown(body: string): Promise<string> {
-  return marked.parse(body, { async: true });
+  const raw = await marked.parse(body, { async: true });
+  // Defense-in-depth: content is authored locally under our control, but
+  // sanitization strips anything that shouldn't reach `dangerouslySetInnerHTML`
+  // (event handlers, javascript: URLs, scripts) if a file is ever compromised.
+  return sanitizeHtml(raw, SANITIZE_OPTIONS);
 }

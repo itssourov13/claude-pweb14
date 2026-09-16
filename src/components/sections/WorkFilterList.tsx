@@ -24,7 +24,11 @@ export default function WorkFilterList({ items }: { items: Work[] }) {
   return (
     <Section className="pt-0">
       {disciplines.length > 0 ? (
-        <div className="mb-8 flex flex-wrap gap-2" role="group" aria-label="Filter by discipline">
+        <div
+          className="mb-8 flex flex-wrap gap-2"
+          role="group"
+          aria-label="Filter by discipline"
+        >
           <button
             type="button"
             onClick={() => setActive(null)}
@@ -64,8 +68,12 @@ export default function WorkFilterList({ items }: { items: Work[] }) {
       ) : (
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           {filtered.map((item) => (
-            <Link key={item.slug} href={`/work/${item.slug}`} className="group block h-full">
-              <Card className="flex h-full flex-col gap-4 transition-colors group-hover:border-accent">
+            <Link
+              key={item.slug}
+              href={`/work/${item.slug}`}
+              className="group block h-full"
+            >
+              <Card className="group-hover:border-accent flex h-full flex-col gap-4 transition-colors">
                 <div className="flex flex-wrap gap-2">
                   {item.discipline.slice(0, 2).map((tag) => (
                     <Badge key={tag}>{tag}</Badge>

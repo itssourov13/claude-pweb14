@@ -79,7 +79,7 @@ export default function ServicesPage() {
         </dl>
         <Link
           href="/contact"
-          className="mt-10 inline-block min-h-11 rounded-full bg-accent px-6 py-3 font-medium text-white hover:bg-accent-strong"
+          className="bg-accent hover:bg-accent-strong mt-10 inline-block min-h-11 rounded-full px-6 py-3 font-medium text-white"
         >
           Start a project
         </Link>

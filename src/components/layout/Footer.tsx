@@ -25,7 +25,10 @@ export default function Footer() {
               {item.label}
             </Link>
           ))}
-          <Link href={siteConfig.socials.rss} className="text-muted hover:text-fg text-sm">
+          <Link
+            href={siteConfig.socials.rss}
+            className="text-muted hover:text-fg text-sm"
+          >
             RSS
           </Link>
         </nav>

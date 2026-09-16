@@ -1,6 +1,9 @@
 "use client";
 
-import { motion, useReducedMotion as useMotionReducedMotion } from "motion/react";
+import {
+  motion,
+  useReducedMotion as useMotionReducedMotion,
+} from "motion/react";
 import type { ReactNode } from "react";
 
 export default function Reveal({

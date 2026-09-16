@@ -1,7 +1,8 @@
 "use client";
 
-import Reveal from "./Reveal";
 import type { ReactNode } from "react";
+
+import Reveal from "./Reveal";
 
 export default function StaggerGroup({
   children,

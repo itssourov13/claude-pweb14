@@ -1,20 +1,62 @@
 import "server-only";
 
+import { Ratelimit } from "@upstash/ratelimit";
+import { Redis } from "@upstash/redis";
 import { Resend } from "resend";
 
 import { siteConfig } from "@/lib/site.config";
 
-// In-memory fallback rate limiter. Resets on cold start / across serverless
-// instances — fine as a bot-slowing speed bump, NOT a substitute for a real
-// store. Swap for Upstash Redis (tech-stack.md D-010) once
-// UPSTASH_REDIS_REST_URL / _TOKEN are set; the guard below already checks
-// for them so this degrades gracefully rather than crashing without creds.
-const attempts = new Map<string, { count: number; resetAt: number }>();
 const WINDOW_MS = 10 * 60 * 1000;
 const MAX_ATTEMPTS = 5;
 
-export function checkRateLimit(key: string): boolean {
+/**
+ * Upstash-backed rate limiter, created only when the Redis env vars are set.
+ *
+ * On Vercel/serverless the in-memory fallback below resets on cold start and
+ * is per-instance, so it is a bot-slowing speed bump at best. Set
+ * UPSTASH_REDIS_REST_URL / UPSTASH_REDIS_REST_TOKEN to get a durable,
+ * shared counter across all instances. Without them the site degrades
+ * gracefully instead of crashing.
+ */
+let limiter: Ratelimit | null = null;
+
+function getLimiter(): Ratelimit | null {
+  if (limiter !== null) return limiter;
+
+  const hasRedis =
+    Boolean(process.env.UPSTASH_REDIS_REST_URL) &&
+    Boolean(process.env.UPSTASH_REDIS_REST_TOKEN);
+
+  limiter = hasRedis
+    ? new Ratelimit({
+        redis: Redis.fromEnv(),
+        limiter: Ratelimit.slidingWindow(
+          MAX_ATTEMPTS,
+          `${WINDOW_MS / 60_000} m`,
+        ),
+        prefix: "rl:contact",
+        // Per-instance cache trims upstream Redis calls; correctness is
+        // still guaranteed by the remote counter.
+        ephemeralCache: new Map(),
+      })
+    : null;
+
+  return limiter;
+}
+
+// In-memory fallback limiter. Keys expire after the window; the map is swept
+// when it grows past a sane cap so memory stays bounded.
+const attempts = new Map<string, { count: number; resetAt: number }>();
+
+function checkInMemory(key: string): boolean {
   const now = Date.now();
+
+  if (attempts.size > 10_000) {
+    for (const [k, record] of attempts) {
+      if (record.resetAt < now) attempts.delete(k);
+    }
+  }
+
   const record = attempts.get(key);
 
   if (!record || record.resetAt < now) {
@@ -28,6 +70,17 @@ export function checkRateLimit(key: string): boolean {
   return true;
 }
 
+export async function checkRateLimit(key: string): Promise<boolean> {
+  const active = getLimiter();
+
+  if (active) {
+    const { success } = await active.limit(key);
+    return success;
+  }
+
+  return checkInMemory(key);
+}
+
 export async function sendContactEmail(input: {
   name: string;
   email: string;
@@ -38,8 +91,8 @@ export async function sendContactEmail(input: {
   const to = process.env.CONTACT_TO_EMAIL || siteConfig.email;
 
   if (!apiKey) {
-    // No credentials configured yet (local dev / not wired up in P0–P4).
-    // Log instead of throwing so the form UX can still be exercised.
+    // No credentials configured (local dev / not yet wired up). Log instead
+    // of throwing so the form UX can still be exercised.
     console.warn("[contact] RESEND_API_KEY not set — email not sent", {
       to,
       from: input.email,
@@ -52,7 +105,7 @@ export async function sendContactEmail(input: {
   await resend.emails.send({
     from: `${siteConfig.name} site <notifications@${siteConfig.domain}>`,
     to,
-    replyTo: input.email,
+    reply_to: input.email,
     subject: `New project inquiry from ${input.name}`,
     text: [
       `Name: ${input.name}`,

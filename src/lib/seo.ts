@@ -53,9 +53,7 @@ export function articleJsonLd(note: Note & { slug: string }) {
   };
 }
 
-export function breadcrumbJsonLd(
-  items: Array<{ name: string; path: string }>,
-) {
+export function breadcrumbJsonLd(items: Array<{ name: string; path: string }>) {
   return {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",

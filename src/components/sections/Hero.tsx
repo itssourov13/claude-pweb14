@@ -12,19 +12,19 @@ export default function Hero() {
       </Link>
 
       <h1 className="text-display-1 max-w-3xl">
-        Independent product designer &amp; engineer, working with founders
-        who care about the details.
+        Independent product designer &amp; engineer, working with founders who
+        care about the details.
       </h1>
 
       <p className="text-muted max-w-xl text-lg">
-        I design and build premium digital products end to end — from the
-        first sketch to the shipped, measured result.
+        I design and build premium digital products end to end — from the first
+        sketch to the shipped, measured result.
       </p>
 
       <div className="flex flex-wrap gap-3 pt-2">
         <Link
           href="/contact"
-          className="min-h-11 rounded-full bg-accent px-5 py-2.5 font-medium text-white hover:bg-accent-strong"
+          className="bg-accent hover:bg-accent-strong min-h-11 rounded-full px-5 py-2.5 font-medium text-white"
         >
           Start a project
         </Link>

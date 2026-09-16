@@ -10,7 +10,7 @@ export type Testimonial = {
 export const testimonials: Testimonial[] = [
   {
     quote:
-      "Alex found the actual problem in our checkout flow in a single afternoon of watching session recordings — something we hadn't managed in months of internal debate.",
+      "Sourov found the actual problem in our checkout flow in a single afternoon of watching session recordings — something we hadn't managed in months of internal debate.",
     name: "Jordan Lee",
     role: "Head of Product",
     company: "Northwind",

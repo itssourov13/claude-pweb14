@@ -16,7 +16,7 @@ export default function MobileNav({ nav }: { nav: NavItem[] }) {
         aria-controls="mobile-nav-menu"
         aria-label={open ? "Close menu" : "Open menu"}
         onClick={() => setOpen((v) => !v)}
-        className="flex h-11 w-11 items-center justify-center rounded-full hover:bg-surface-2"
+        className="hover:bg-surface-2 flex h-11 w-11 items-center justify-center rounded-full"
       >
         <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true">
           {open ? (

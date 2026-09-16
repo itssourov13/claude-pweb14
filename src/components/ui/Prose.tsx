@@ -14,8 +14,8 @@ export default function Prose({
         "prose-headings:font-display prose-a:text-accent-strong",
         className,
       )}
-      // Content is authored in local .mdx files under our control (not
-      // user-submitted), rendered with `marked` at request time.
+      // HTML is pre-sanitized server-side in `renderMarkdown` (DOMPurify)
+      // before it reaches this sink.
       dangerouslySetInnerHTML={{ __html: html }}
     />
   );

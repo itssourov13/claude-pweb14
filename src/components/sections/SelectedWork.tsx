@@ -14,9 +14,7 @@ export default function SelectedWork({ items }: { items: Work[] }) {
     <Section>
       <div className="mb-10 flex items-end justify-between gap-4">
         <div>
-          <p className="text-overline text-accent-strong mb-2">
-            Selected work
-          </p>
+          <p className="text-overline text-accent-strong mb-2">Selected work</p>
           <h2 className="text-display-2">A few recent projects.</h2>
         </div>
         <Link
@@ -31,7 +29,7 @@ export default function SelectedWork({ items }: { items: Work[] }) {
         {items.map((item, index) => (
           <Reveal key={item.slug} delay={index * 0.06}>
             <Link href={`/work/${item.slug}`} className="group block h-full">
-              <Card className="flex h-full flex-col gap-4 transition-colors group-hover:border-accent">
+              <Card className="group-hover:border-accent flex h-full flex-col gap-4 transition-colors">
                 <div className="flex flex-wrap gap-2">
                   {item.discipline.slice(0, 2).map((tag) => (
                     <Badge key={tag}>{tag}</Badge>

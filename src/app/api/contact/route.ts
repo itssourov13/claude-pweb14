@@ -8,10 +8,9 @@ const MIN_FILL_TIME_MS = 1500;
 
 export async function POST(request: NextRequest) {
   const ip =
-    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
-    "unknown";
+    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
 
-  if (!checkRateLimit(ip)) {
+  if (!(await checkRateLimit(ip))) {
     return NextResponse.json(
       { message: "Too many requests. Please try again later." },
       { status: 429 },

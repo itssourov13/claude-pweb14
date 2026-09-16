@@ -19,7 +19,7 @@ export default function Badge({
         "text-overline inline-flex items-center gap-1.5 rounded-full px-3 py-1",
         tone === "accent"
           ? "bg-accent-soft text-accent-strong"
-          : "border border-border text-muted",
+          : "border-border text-muted border",
         className,
       )}
       {...props}

@@ -6,7 +6,8 @@ import { getAllWork } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Work",
-  description: "Case studies from recent product design and engineering projects.",
+  description:
+    "Case studies from recent product design and engineering projects.",
 };
 
 export default function WorkIndexPage() {
