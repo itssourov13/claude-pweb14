@@ -1,0 +1,44 @@
+---
+title: "Rebuilding checkout for a DTC platform"
+client: "Northwind (name changed)"
+year: 2026
+role: "Product designer & front-end engineer"
+timeline: "8 weeks"
+stack: ["Next.js", "TypeScript", "Stripe"]
+discipline: ["Product design", "Front-end engineering"]
+industry: ["E-commerce"]
+summary: "Cut checkout abandonment by redesigning the flow around a single scrolling page."
+outcomes:
+  - label: "Checkout abandonment"
+    value: "-23"
+    suffix: "%"
+  - label: "Time to purchase"
+    value: "-40"
+    suffix: "%"
+featured: true
+published: "2026-02-14"
+draft: false
+cover: null
+gallery: []
+---
+
+## Problem
+
+Northwind's multi-step checkout was losing a quarter of buyers between cart
+and confirmation, most of them on the shipping-details step on mobile.
+
+## Approach
+
+I collapsed the three-step flow into a single scrolling page with inline
+validation, added express payment buttons above the fold, and rebuilt the
+address form around autofill instead of fighting it.
+
+## Outcome
+
+Abandonment dropped 23% within the first month post-launch, with the biggest
+gain on mobile Safari, where autofill friction had been worst.
+
+## Learnings
+
+Most of the win came from removing steps, not adding polish — the fancier
+animation work mattered far less than the form actually being fillable.
