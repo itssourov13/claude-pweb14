@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 
 import PageHeader from "@/components/sections/PageHeader";
@@ -13,6 +14,19 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <>
+      <div className="flex justify-center pt-8 pb-2">
+        <div className="relative h-40 w-40 overflow-hidden rounded-full border border-black/10 dark:border-white/10">
+          <Image
+            src="/images/profile.png"
+            alt={`${siteConfig.name} profile photo`}
+            fill
+            className="object-cover"
+            sizes="160px"
+            priority
+          />
+        </div>
+      </div>
+
       <PageHeader
         eyebrow="About"
         title={`Hi, I'm ${siteConfig.name}.`}
